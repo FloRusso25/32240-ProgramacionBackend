@@ -7,6 +7,7 @@ export default class ProductManager {
         this.products = []
     }
 
+    //Defines id incrementally. If there are any products it starts in 1. Otherwise increments the last existing id in 1.
     setId() {
         try {
             let id = 1
@@ -22,6 +23,7 @@ export default class ProductManager {
         
     }
 
+    //Validates object has only the properties defined in properties array.
     validateProperties(product) {
         const properties = ['title', 'description', 'price', 'thumbnail', 'code', 'stock']
         for (let property in properties) {
@@ -33,6 +35,7 @@ export default class ProductManager {
         return true      
     }
 
+    //Validates the object sent in product has the property property defined and it is not the id.
     validateProperty(property, product) {
         if ((property == 'id') || !(property in product)) {
             throw new Error (`Property ${property} is not valid`)
@@ -41,6 +44,7 @@ export default class ProductManager {
         return true
     }
 
+    //Validates the code is not already defined for a product
     validateCode(code) {
         const product = this.products.filter(item => item.code == code)
         if (product.length) {
@@ -50,6 +54,7 @@ export default class ProductManager {
         }
     }
 
+    //Gets all products in the file specified in path
     async getProducts() {
         this.products = await fs.promises.readFile(this.path)
         if (this.products.length == 0) {
@@ -61,6 +66,7 @@ export default class ProductManager {
         return this.products
     }
 
+    //Adds a product into the path file
     async addProduct(product) {
         try{
             this.validateProperties(product)
@@ -72,7 +78,8 @@ export default class ProductManager {
             console.log (`ERROR adding product ${JSON.stringify(product)}. Msg: ${error}`)
         }        
     }
-
+    
+    //Get a product by a particular id
     async getProductById(id) {
         try{
             let products = await this.getProducts()
@@ -88,6 +95,7 @@ export default class ProductManager {
         }
     }
 
+    //Updates the property with value of a product with matching id  
     async updateProduct(id, property, value) {
         try {
             let oldProduct = await this.getProductById(id)
@@ -106,6 +114,7 @@ export default class ProductManager {
 
     }
 
+    //Deletes a product with the id sent
     async deleteProduct(id) {
         try {
             let products = (await this.getProducts()).filter(item => item.id != id)
