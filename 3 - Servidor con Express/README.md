@@ -17,5 +17,5 @@ Desarrollar un servidor basado en express donde podamos hacer consultas a nuestr
 Link al repositorio de Github con el proyecto completo, el cual debe incluir:
   - carpeta src con app.js dentro y tu ProductManager dentro.
   - package.json con la info del proyecto.
-  - NO INCLUIR LOS node_modules generados.
+  - NO INCLUIR los node_modules generados.
   
